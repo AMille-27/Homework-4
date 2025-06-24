@@ -1,0 +1,147 @@
+---
+title: "ST 558 Homework 4"
+author: "Alise Miller"
+format: pdf
+editor: visual
+---
+
+## Task 1 Conceptual Questions
+
+```{r}
+task_1_QandA <- list("Question 1" = "The purpose of lapply() is to be able to use apply() to lists and lists elements. The equivalent purr function is map().", "Question 2" = "lapply(my_list, cor, method = "kendall")","Question 3" = "Two advantages to using purrr: 1) more consistency and some helper functions. 2) able to use "shortcut"/ short hand formula code." ,"Question 4", "A side effect function is a functions that doesn't try to change the data, but it does try to produce something. Examples seen in the note:print(), or write.csv().", "Question 5" = "I can name a variable sd in a function and not cause any issues with the sd function because they are stored in different objects or locations. Like they represent two different things. One is a variable I came up with in my R while the function is one that everyone can use that is not locally stored." )
+```
+
+
+### Question 1 What is the purpose of lapply()? What is the equivalent purr function?
+
+The purpose of lapply() is to be able to use apply() to lists and lists elements. The equivalent purr function is map().
+
+### Question 2 Suppose my_list
+
+```{r}
+lapply(my_list, cor, method = "kendall")
+
+```
+
+### Question 3 Advantages of using purrr functions
+
+Two advantages to using purrr: 1) more consistency and some helper functions. 2) able to use "shortcut"/ short hand formula code.
+
+### Question 4 Side-effect function?
+
+A side effect function is a functions that doesn't try to change the data, but it does try to produce something. Examples seen in the note:print(), or write.csv().
+
+### Question 5 sd as a variable and sd function
+
+I can name a variable sd in a function and not cause any issues with the sd function because they are stored in different objects or locations. Like they represent two different things. One is a variable I came up with in my R while the function is one that everyone can use that is not locally stored.
+
+##Task 2 - Writing R Functions
+
+###Question 1 Write function getRMSE()
+```{r}
+getRMSE <- function (y, y_hat, ...) { #y=actual responses y_hat=predictions
+  diff_sq <- (y-y_hat)^2 #difference and squared
+   mean_diff_sq <-mean(diff_sq,...) #the mean of diffs
+  rmse <- sqrt(mean_diff_sq)
+  return(rmse)
+}
+```
+
+### Question 2 Root Mean Square Error 
+```{r}
+set.seed(10)
+n <- 100
+x <- runif(n)
+resp <- 3 + 10*x + rnorm(n)
+pred <- predict(lm(resp ~ x), data.frame(x))
+```
+
+```{r}
+getRMSE (resp, pred) #without specifying
+
+```
+
+```{r}
+resp [1] <- NA_real_ #changing to make element 1 NA
+resp[2] <-NA_real_ #changing to make element 2 NA 
+```
+
+```{r}
+getRMSE (resp, pred)
+getRMSE (resp, pred, na.rm = TRUE) #with specifying NA treatment
+
+```
+
+### Question 3 Mean Absolute Deviation
+```{r}
+getMAE <- function (y, y_hat, ...) { #y=actual responses y_hat=predictions "..." used to add more rules later
+  absolute_diff <- abs(y-y_hat) #difference and abs val
+   MAE <- mean(absolute_diff,...) #the mean of diffs
+  return(MAE)
+}
+```
+
+### Question 4 Testing MAE
+```{r}
+set.seed(10)
+n <- 100
+x <- runif(n)
+resp <- 3 + 10*x + rnorm(n)
+pred <- predict(lm(resp ~ x), data.frame(x))
+```
+
+```{r}
+getMAE(resp, pred) #testing MAE 
+```
+
+```{r} 
+#replaceing two values with NA_real_
+resp[1] <- NA_real_ #hopefully replacing element 1 w/ NA
+resp[2] <- NA_real_ #hopefully replacing element 2 w/ NA
+```
+
+```{r}
+getMAE(resp, pred) #w/o 
+getMAE(resp, pred, na.rm = TRUE) #w/specificing
+```
+
+### Question 5 Wrapper Function
+
+```{r}
+my_wrapper <- function( y, y_hat, ...) {
+  if (!is.numeric(y) || !is.numeric(y_hat)) {
+    stop("Error: Both y and y_hat must be numeric vectors.")
+  }
+  if (!is.atomic(y) || !is.atomic(y_hat)) {
+    stop("Error: Both y and y_hat must be atomic vectors.")
+  }
+  result_1 <- getRMSE(y, y_hat)
+  result_2 <- getMAE(y, y_hat)
+  results <- list("RMSE" = result_1, "MAE" = result_2)
+  return(results)
+}
+```
+
+### Testing Wrapper
+```{r}
+set.seed(10)
+n <- 100
+x <- runif(n)
+resp <- 3 + 10*x + rnorm(n)
+pred <- predict(lm(resp ~ x), data.frame(x))
+```
+
+```{r}
+my_wrapper( #1 result at a time
+```
+
+```{r}
+my_wrapper( #1 result at a time
+```
+
+```{r}
+my_wrapper(resp, pred) #calling both
+```
+
+
+##Task 3
