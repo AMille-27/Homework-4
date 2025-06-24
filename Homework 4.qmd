@@ -115,6 +115,9 @@ my_wrapper <- function( y, y_hat, ...) {
   if (!is.atomic(y) || !is.atomic(y_hat)) {
     stop("Error: Both y and y_hat must be atomic vectors.")
   }
+   if (!is.vector(y) || !is.vector(y_hat)) {
+    stop("Error: Both y and y_hat must be vectors.")
+  }
   result_1 <- getRMSE(y, y_hat)
   result_2 <- getMAE(y, y_hat)
   results <- list("RMSE" = result_1, "MAE" = result_2)
