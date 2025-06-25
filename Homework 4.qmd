@@ -1,16 +1,19 @@
 ---
 title: "ST 558 Homework 4"
 author: "Alise Miller"
-format: pdf
+format: 
+  pdf:
+    code-overflow: wrap
+    fontsize: 9pt
 editor: visual
 ---
 
 ## Task 1 Conceptual Questions
 
-```{r}
-# this was one I was trying to make a list for my repsonses
-#task_1_QandA <- list("Question 1" = "The purpose of lapply() is to be able to use apply() to lists and lists elements. The equivalent purr function is map().", "Question 2" = "lapply(my_list, cor, method = "kendall")","Question 3" = "Two advantages to using purrr: 1) more consistency and some helper functions. 2) able to use "shortcut"/ short hand formula code." ,"Question 4", "A side effect function is a functions that doesn't try to change the data, but it does try to produce something. Examples seen in the note:print(), or write.csv().", "Question 5" = "I can name a variable sd in a function and not cause any issues with the sd function because they are stored in different objects or locations. Like they represent two different things. One is a variable I came up with in my R while the function is one that everyone can use that is not locally stored." )
-```
+{r}
+ this was one I was trying to make a list for my repsonses
+task_1_QandA <- list("Question 1" = "The purpose of lapply() is to be able to use apply() to lists and lists elements. The equivalent purr function is map().", "Question 2" = "lapply(my_list, cor, method = "kendall")","Question 3" = "Two advantages to using purrr: 1) more consistency and some helper functions. 2) able to use "shortcut"/ short hand formula code." ,"Question 4", "A side effect function is a functions that doesn't try to change the data, but it does try to produce something. Examples seen in the note:print(), or write.csv().", "Question 5" = "I can name a variable sd in a function and not cause any issues with the sd function because they are stored in different objects or locations. Like they represent two different things. One is a variable I came up with in my R while the function is one that everyone can use that is not locally stored." )
+
 
 ### Question 1 What is the purpose of lapply()? What is the equivalent purr function?
 
@@ -171,7 +174,8 @@ my_wrapper(resp, pred) #calling both
 ```
 
 ```{r, error= TRUE}
-my_wrapper(iris$Sepal.Length, iris$Species) (echo = FALSE) #testing for error
+my_wrapper(iris$Sepal.Length, iris$Species) (echo = FALSE) 
+#testing for error
 ```
 
 ## Task 3
@@ -185,7 +189,8 @@ library(jsonlite)
 ```
 
 ```{r}
-URL_ids <- "https://newsapi.org/v2/top-headlines?country=us&category=health&apiKey=6cbf1ccd7a26414fb634a04a7fef4f91"
+URL_ids <- 
+"https://newsapi.org/v2/top-headlines?country=us&category=health&apiKey=6cbf1ccd7a26414fb634a04a7fef4f91"
 id_info <- GET(URL_ids)
 str(id_info)
 ```
@@ -216,13 +221,16 @@ my_api_query <- function (title, date, api_key){
 ```
 
 ```{r}
-my_api_res1 <- my_api_query("measles", "2025-06-16", "6cbf1ccd7a26414fb634a04a7fef4f91") #this one was to see if it worked
+my_api_res1 <- my_api_query("measles", "2025-06-16", "6cbf1ccd7a26414fb634a04a7fef4f91") 
+#this one was to see if it worked
 
 my_api_res1
 ```
 
 ```{r}
-my_api_res2 <- my_api_query("gamestop", "2025-06-16", "6cbf1ccd7a26414fb634a04a7fef4f91") #this one was for the directions of gamestop and pick a date in 30 day parameter
+my_api_res2 <- my_api_query("gamestop", "2025-06-16", "6cbf1ccd7a26414fb634a04a7fef4f91") 
+#this one was for the directions of gamestop and 
+#pick a date in 30 day parameter
 
 my_api_res2 #everything
 my_api_res2[[4]] #titles
