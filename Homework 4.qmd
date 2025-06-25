@@ -37,7 +37,7 @@ I can name a variable sd in a function and not cause any issues with the sd func
 
 ## Task 2 - Writing R Functions
 
-###Question 1 Write function getRMSE()
+### Question 1 Write function getRMSE()
 
 ```{r}
 getRMSE <- function (y, y_hat, ...) { #y=actual responses y_hat=predictions
@@ -148,7 +148,7 @@ my_wrapper(resp, pred, "RMSE") # 1 result at a time RMSE
 ```
 
 ```{r}
-my_wrapper(resp, pred, "MAE") #1 result at a time MAE
+my_wrapper(resp, pred, "MAE") # 1 result at a time MAE
 ```
 
 ```{r}
