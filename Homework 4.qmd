@@ -12,7 +12,6 @@ editor: visual
 #task_1_QandA <- list("Question 1" = "The purpose of lapply() is to be able to use apply() to lists and lists elements. The equivalent purr function is map().", "Question 2" = "lapply(my_list, cor, method = "kendall")","Question 3" = "Two advantages to using purrr: 1) more consistency and some helper functions. 2) able to use "shortcut"/ short hand formula code." ,"Question 4", "A side effect function is a functions that doesn't try to change the data, but it does try to produce something. Examples seen in the note:print(), or write.csv().", "Question 5" = "I can name a variable sd in a function and not cause any issues with the sd function because they are stored in different objects or locations. Like they represent two different things. One is a variable I came up with in my R while the function is one that everyone can use that is not locally stored." )
 ```
 
-
 ### Question 1 What is the purpose of lapply()? What is the equivalent purr function?
 
 The purpose of lapply() is to be able to use apply() to lists and lists elements. The equivalent purr function is map().
@@ -36,9 +35,10 @@ A side effect function is a functions that doesn't try to change the data, but i
 
 I can name a variable sd in a function and not cause any issues with the sd function because they are stored in different objects or locations. Like they represent two different things. One is a variable I came up with in my R while the function is one that everyone can use that is not locally stored.
 
-##Task 2 - Writing R Functions
+## Task 2 - Writing R Functions
 
 ###Question 1 Write function getRMSE()
+
 ```{r}
 getRMSE <- function (y, y_hat, ...) { #y=actual responses y_hat=predictions
   diff_sq <- (y-y_hat)^2 #difference and squared
@@ -48,7 +48,8 @@ getRMSE <- function (y, y_hat, ...) { #y=actual responses y_hat=predictions
 }
 ```
 
-### Question 2 Root Mean Square Error 
+### Question 2 Root Mean Square Error
+
 ```{r}
 set.seed(10)
 n <- 100
@@ -74,6 +75,7 @@ getRMSE (resp, pred, na.rm = TRUE) #with specifying NA treatment
 ```
 
 ### Question 3 Mean Absolute Deviation
+
 ```{r}
 getMAE <- function (y, y_hat, ...) { #y=actual responses y_hat=predictions "..." used to add more rules later
   absolute_diff <- abs(y-y_hat) #difference and abs val
@@ -83,6 +85,7 @@ getMAE <- function (y, y_hat, ...) { #y=actual responses y_hat=predictions "..."
 ```
 
 ### Question 4 Testing MAE
+
 ```{r}
 set.seed(10)
 n <- 100
@@ -95,7 +98,7 @@ pred <- predict(lm(resp ~ x), data.frame(x))
 getMAE(resp, pred) #testing MAE 
 ```
 
-```{r} 
+```{r}
 #replaceing two values with NA_real_
 resp[1] <- NA_real_ #hopefully replacing element 1 w/ NA
 resp[2] <- NA_real_ #hopefully replacing element 2 w/ NA
@@ -131,6 +134,7 @@ my_wrapper <- function( y, y_hat, metrics = c("RMSE", "MAE"), ...) {
 ```
 
 ### Question 6 Testing Wrapper
+
 ```{r}
 set.seed(10)
 n <- 100
@@ -173,8 +177,7 @@ my_wrapper(resp, pred) #calling both
 my_wrapper(iris$Sepal.Length, iris$Species) #testing for error
 ```
 
-
-##Task 3
+## Task 3
 
 ### Question 1 GET()
 
@@ -191,6 +194,7 @@ str(id_info)
 ```
 
 ### Question 2 Parsing
+
 ```{r}
 library(jsonlite)
 library(tidyverse)
@@ -200,7 +204,6 @@ article_info[[3]]
 ```
 
 ### Question 3 Query Function
-
 
 ```{r}
 library(httr)
@@ -226,5 +229,3 @@ my_api_res2 <- my_api_query("gamestop", "2025-06-16", "6cbf1ccd7a26414fb634a04a7
 
 str(my_api_res2)
 ```
-
-
