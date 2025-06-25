@@ -8,7 +8,8 @@ editor: visual
 ## Task 1 Conceptual Questions
 
 ```{r}
-task_1_QandA <- list("Question 1" = "The purpose of lapply() is to be able to use apply() to lists and lists elements. The equivalent purr function is map().", "Question 2" = "lapply(my_list, cor, method = "kendall")","Question 3" = "Two advantages to using purrr: 1) more consistency and some helper functions. 2) able to use "shortcut"/ short hand formula code." ,"Question 4", "A side effect function is a functions that doesn't try to change the data, but it does try to produce something. Examples seen in the note:print(), or write.csv().", "Question 5" = "I can name a variable sd in a function and not cause any issues with the sd function because they are stored in different objects or locations. Like they represent two different things. One is a variable I came up with in my R while the function is one that everyone can use that is not locally stored." )
+# this was one I was trying to make a list for my repsonses
+#task_1_QandA <- list("Question 1" = "The purpose of lapply() is to be able to use apply() to lists and lists elements. The equivalent purr function is map().", "Question 2" = "lapply(my_list, cor, method = "kendall")","Question 3" = "Two advantages to using purrr: 1) more consistency and some helper functions. 2) able to use "shortcut"/ short hand formula code." ,"Question 4", "A side effect function is a functions that doesn't try to change the data, but it does try to produce something. Examples seen in the note:print(), or write.csv().", "Question 5" = "I can name a variable sd in a function and not cause any issues with the sd function because they are stored in different objects or locations. Like they represent two different things. One is a variable I came up with in my R while the function is one that everyone can use that is not locally stored." )
 ```
 
 
@@ -108,7 +109,7 @@ getMAE(resp, pred, na.rm = TRUE) #w/specificing
 ### Question 5 Wrapper Function
 
 ```{r}
-my_wrapper <- function( y, y_hat, ...) {
+my_wrapper <- function( y, y_hat, metrics = c("RMSE", "MAE"), ...) {
   if (!is.numeric(y) || !is.numeric(y_hat)) {
     stop("Error: Both y and y_hat must be numeric vectors.")
   }
@@ -117,15 +118,19 @@ my_wrapper <- function( y, y_hat, ...) {
   }
    if (!is.vector(y) || !is.vector(y_hat)) {
     stop("Error: Both y and y_hat must be vectors.")
+   }
+  results <- list()
+  if ("RMSE" %in% metrics) {
+  results$RMSE <- getRMSE(y, y_hat)
   }
-  result_1 <- getRMSE(y, y_hat)
-  result_2 <- getMAE(y, y_hat)
-  results <- list("RMSE" = result_1, "MAE" = result_2)
+  if ("MAE" %in% metrics) {
+  results$MAE <- getMAE(y, y_hat)
+  }
   return(results)
 }
 ```
 
-### Testing Wrapper
+### Question 6 Testing Wrapper
 ```{r}
 set.seed(10)
 n <- 100
@@ -135,16 +140,91 @@ pred <- predict(lm(resp ~ x), data.frame(x))
 ```
 
 ```{r}
-my_wrapper( #1 result at a time
+my_wrapper(resp, pred, "RMSE") # 1 result at a time RMSE
 ```
 
 ```{r}
-my_wrapper( #1 result at a time
+my_wrapper(resp, pred, "MAE") #1 result at a time MAE
 ```
 
 ```{r}
 my_wrapper(resp, pred) #calling both
 ```
 
+```{r}
+#replaceing two values with NA_real_
+resp[1] <- NA_real_ #hopefully replacing element 1 w/ NA
+resp[2] <- NA_real_ #hopefully replacing element 2 w/ NA
+```
+
+```{r}
+my_wrapper(resp, pred, "RMSE") # 1 result at a time RMSE
+```
+
+```{r}
+my_wrapper(resp, pred, "MAE") #1 result at a time MAE
+```
+
+```{r}
+my_wrapper(resp, pred) #calling both
+```
+
+```{r}
+my_wrapper(iris$Sepal.Length, iris$Species) #testing for error
+```
+
 
 ##Task 3
+
+### Question 1 GET()
+
+```{r}
+#install.packages("httr")
+library(httr)
+library(jsonlite)
+```
+
+```{r}
+URL_ids <- "https://newsapi.org/v2/top-headlines?country=us&category=health&apiKey=6cbf1ccd7a26414fb634a04a7fef4f91"
+id_info <- GET(URL_ids)
+str(id_info)
+```
+
+### Question 2 Parsing
+```{r}
+library(jsonlite)
+library(tidyverse)
+parsed <-fromJSON(rawToChar(id_info$content))
+article_info <-as_tibble(parsed$articles)
+article_info[[3]]
+```
+
+### Question 3 Query Function
+
+
+```{r}
+library(httr)
+my_api_query <- function (title, date, api_key){
+  starting_url <- "https://newsapi.org/v2/everything"
+  responses <-GET(url = starting_url, query= list( q = title,
+    from = date, apiKey=api_key))
+
+  parsed_my_query <-fromJSON(rawToChar(responses$content))
+  article_title <- as_tibble(parsed_my_query$articles)
+  return(article_title)
+}
+```
+
+```{r}
+my_api_res1 <- my_api_query("measles", "2025-06-16", "6cbf1ccd7a26414fb634a04a7fef4f91") #this one was to see if it worked
+
+my_api_res1
+```
+
+```{r}
+my_api_res2 <- my_api_query("gamestop", "2025-06-16", "6cbf1ccd7a26414fb634a04a7fef4f91") #this one was for the directions of gamestop and pick a date in 30 day parameter
+
+str(my_api_res2)
+```
+
+
