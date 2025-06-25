@@ -18,10 +18,7 @@ The purpose of lapply() is to be able to use apply() to lists and lists elements
 
 ### Question 2 Suppose my_list
 
-```{r}
 lapply(my_list, cor, method = "kendall")
-
-```
 
 ### Question 3 Advantages of using purrr functions
 
@@ -99,14 +96,14 @@ getMAE(resp, pred) #testing MAE
 ```
 
 ```{r}
-#replaceing two values with NA_real_
+#replacing two values with NA_real_
 resp[1] <- NA_real_ #hopefully replacing element 1 w/ NA
 resp[2] <- NA_real_ #hopefully replacing element 2 w/ NA
 ```
 
 ```{r}
 getMAE(resp, pred) #w/o 
-getMAE(resp, pred, na.rm = TRUE) #w/specificing
+getMAE(resp, pred, na.rm = TRUE) #w/specifying
 ```
 
 ### Question 5 Wrapper Function
@@ -156,7 +153,7 @@ my_wrapper(resp, pred) #calling both
 ```
 
 ```{r}
-#replaceing two values with NA_real_
+#replacing two values with NA_real_
 resp[1] <- NA_real_ #hopefully replacing element 1 w/ NA
 resp[2] <- NA_real_ #hopefully replacing element 2 w/ NA
 ```
@@ -173,8 +170,8 @@ my_wrapper(resp, pred, "MAE") #1 result at a time MAE
 my_wrapper(resp, pred) #calling both
 ```
 
-```{r}
-my_wrapper(iris$Sepal.Length, iris$Species) #testing for error
+```{r, error= TRUE}
+my_wrapper(iris$Sepal.Length, iris$Species) (echo = FALSE) #testing for error
 ```
 
 ## Task 3
@@ -227,5 +224,6 @@ my_api_res1
 ```{r}
 my_api_res2 <- my_api_query("gamestop", "2025-06-16", "6cbf1ccd7a26414fb634a04a7fef4f91") #this one was for the directions of gamestop and pick a date in 30 day parameter
 
-str(my_api_res2)
+my_api_res2 #everything
+my_api_res2[[4]] #titles
 ```
